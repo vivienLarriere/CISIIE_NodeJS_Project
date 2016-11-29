@@ -1,5 +1,5 @@
 {
-  "name": "NodeJS_project",
+  "name": "my-project",
   "version": "1.0.0",
   "devDependencies": {
     "babel-cli": "^6.18.0",

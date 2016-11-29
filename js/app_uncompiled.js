@@ -1,6 +1,13 @@
 window.TaskManager = (() => {
 
-    let module = {};
+    let module = {
+
+        reload(){
+            $("#taskmanager").empty(); //vide element taskmanager
+            TaskManager.display_tasks('#taskmanager');
+        }
+    };
+
 
     module.Task = class Task {
         constructor(name = 'untitled', duration = 0, tags = []) {
@@ -36,19 +43,13 @@ window.TaskManager = (() => {
             return duration_item;
         }
 
-
-        add_tag() {
-            let field = $('<input>').prop('type', 'text');
-            let button = $('<input>').prop('type', 'submit');
-            let form = $('<form>').append(field).append(button);
-
-            form.append(field);
-            return field;
-        }
-
         display_tags() {
             let tags_item = $('<li>').addClass('tags');
             tags_item.text(this.tags);
+
+            let field = $('<input>').prop('type', 'text');
+            let button = $('<input>').prop('type', 'submit');
+            let form = $('<form>').append(field).append(button);
             let in_edit = false;
 
             tags_item.click((event) => {
@@ -76,26 +77,51 @@ window.TaskManager = (() => {
         }
     };
 
+    module.Tag = class Tag {
+
+        constructor(name = ['no_name']) {
+            this.name = name;
+        }
+    };
+
     module.tasks = [];
 
     module.display_tasks = (tag_id) => {
         let container = $('<ul>').prop('id', 'tasks');
+
         $(tag_id).append(container);
+
         for (let task of module.tasks) {
             $(container).append(task.display());
         }
-    };
+        let name = $('<input>').prop('type', 'text').prop('id', 'name');
+        let name_legend = $('<legend>').text("Name");
+        let duration = $('<input>').prop('type', 'number').prop('id', 'duration');
+        let duration_legend = $('<legend>').text("Duration");
+        let tags = $('<input>').prop('type', 'text').prop('id', 'tags');
+        let tags_legend = $('<legend>').text("Tags");
+        let button = $('<input>').prop('type', 'submit').prop('value', 'Ajouter une tâche');
+        let form = $('<form>').prop('id', 'add_task').append(name_legend).append(name).append(duration_legend).append(duration).append(tags_legend).append(tags).append("<br> <br>").append(button);
 
-    module.add_tag = () => {
-        let container = $('<div>').prop('id', 'form_tag');
-        $(container).append()
+        form.submit((event) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            module.tasks.push(new TaskManager.Task(name.val(), duration.val(), tags.val()));
+            module.reload();
+        });
+
+        $(tag_id).append(form);
+
     };
 
     return module;
+
+
 })();
 
 $(() => {
-    TaskManager.tasks.push(new TaskManager.Task('tache1', 10, 'tag1'));
+    TaskManager.tasks.push(new TaskManager.Task('tache1', 10, ['toto', 'trotro']));
     TaskManager.tasks.push(new TaskManager.Task('tache2', 25, 'tag2'));
     TaskManager.tasks.push(new TaskManager.Task('tache3', 17, 'tagueule'));
 

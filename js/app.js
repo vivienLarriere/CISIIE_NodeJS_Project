@@ -6,7 +6,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 window.TaskManager = function () {
 
-    var module = {};
+    var module = {
+        reload: function reload() {
+            $("#taskmanager").empty(); //vide element taskmanager
+            TaskManager.display_tasks('#taskmanager');
+        }
+    };
 
     module.Task = function () {
         function Task() {
@@ -52,22 +57,16 @@ window.TaskManager = function () {
                 return duration_item;
             }
         }, {
-            key: 'add_tag',
-            value: function add_tag() {
-                var field = $('<input>').prop('type', 'text');
-                var button = $('<input>').prop('type', 'submit');
-                var form = $('<form>').append(field).append(button);
-
-                form.append(field);
-                return field;
-            }
-        }, {
             key: 'display_tags',
             value: function display_tags() {
                 var _this = this;
 
                 var tags_item = $('<li>').addClass('tags');
                 tags_item.text(this.tags);
+
+                var field = $('<input>').prop('type', 'text');
+                var button = $('<input>').prop('type', 'submit');
+                var form = $('<form>').append(field).append(button);
                 var in_edit = false;
 
                 tags_item.click(function (event) {
@@ -97,11 +96,21 @@ window.TaskManager = function () {
         return Task;
     }();
 
+    module.Tag = function Tag() {
+        var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['no_name'];
+
+        _classCallCheck(this, Tag);
+
+        this.name = name;
+    };
+
     module.tasks = [];
 
     module.display_tasks = function (tag_id) {
         var container = $('<ul>').prop('id', 'tasks');
+
         $(tag_id).append(container);
+
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -126,18 +135,32 @@ window.TaskManager = function () {
                 }
             }
         }
-    };
 
-    module.add_tag = function () {
-        var container = $('<div>').prop('id', 'form_tag');
-        $(container).append();
+        var name = $('<input>').prop('type', 'text').prop('id', 'name');
+        var name_legend = $('<legend>').text("Name");
+        var duration = $('<input>').prop('type', 'number').prop('id', 'duration');
+        var duration_legend = $('<legend>').text("Duration");
+        var tags = $('<input>').prop('type', 'text').prop('id', 'tags');
+        var tags_legend = $('<legend>').text("Tags");
+        var button = $('<input>').prop('type', 'submit').prop('value', 'Ajouter une tâche');
+        var form = $('<form>').prop('id', 'add_task').append(name_legend).append(name).append(duration_legend).append(duration).append(tags_legend).append(tags).append("<br> <br>").append(button);
+
+        form.submit(function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            module.tasks.push(new TaskManager.Task(name.val(), duration.val(), tags.val()));
+            module.reload();
+        });
+
+        $(tag_id).append(form);
     };
 
     return module;
 }();
 
 $(function () {
-    TaskManager.tasks.push(new TaskManager.Task('tache1', 10, 'tag1'));
+    TaskManager.tasks.push(new TaskManager.Task('tache1', 10, ['toto', 'trotro']));
     TaskManager.tasks.push(new TaskManager.Task('tache2', 25, 'tag2'));
     TaskManager.tasks.push(new TaskManager.Task('tache3', 17, 'tagueule'));
 
