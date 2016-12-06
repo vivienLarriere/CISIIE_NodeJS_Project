@@ -1,45 +1,61 @@
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 #tasks {
-  width: 500px;
+    width: 500px;
 }
 
 .task {
-  margin: 10px;
-  background: silver;
+    margin: 10px;
 }
 
 .name {
-  display: block;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid white;
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid white;
 }
 
 .task ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .task li {
-  padding: 15px;
-  color: dimGray;
+    padding: 15px;
 }
 
 .duration::before {
-  content: 'duration: ';
+    content: 'Duration: ';
 }
-.duration.short  { color: forestGreen; }
-.duration.long   { color: indianRed; }
+
+.duration.short {
+    background-color: forestGreen;
+    color: black;
+}
+
+.duration {
+    margin: 0.5em;
+    background-color: #184d77;
+    color: black;
+}
+
+.duration.long {
+    background-color: indianred;
+    color: black;
+}
+
+.header {
+    margin: 0;
+}

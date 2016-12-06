@@ -1,7 +1,6 @@
 window.TaskManager = (() => {
 
     let module = {
-
         reload(){
             $("#taskmanager").empty(); //vide element taskmanager
             TaskManager.display_tasks('#taskmanager');
@@ -87,7 +86,7 @@ window.TaskManager = (() => {
     module.tasks = [];
 
     module.display_tasks = (tag_id) => {
-        let container = $('<ul>').prop('id', 'tasks');
+        let container = $('<ul>').prop('id', 'tasks').prop('class', 'jumbotron');
 
         $(tag_id).append(container);
 
@@ -98,10 +97,19 @@ window.TaskManager = (() => {
         let name_legend = $('<legend>').text("Name");
         let duration = $('<input>').prop('type', 'number').prop('id', 'duration');
         let duration_legend = $('<legend>').text("Duration");
-        let tags = $('<input>').prop('type', 'text').prop('id', 'tags');
+
+        let tags = $('<input>').prop('type', 'text').prop('list', 'tag_datalist');
+        let tag_datalist = $('<datalist>').prop('id', 'tag_datalist');
         let tags_legend = $('<legend>').text("Tags");
         let button = $('<input>').prop('type', 'submit').prop('value', 'Ajouter une tâche');
-        let form = $('<form>').prop('id', 'add_task').append(name_legend).append(name).append(duration_legend).append(duration).append(tags_legend).append(tags).append("<br> <br>").append(button);
+        let form = $('<form>').prop('id', 'add_task').append(name_legend)
+            .append(name)
+            .append(duration_legend)
+            .append(duration)
+            .append(tags_legend)
+            .append(tags)
+            .append("<br> <br>")
+            .append(button);
 
         form.submit((event) => {
             event.stopPropagation();

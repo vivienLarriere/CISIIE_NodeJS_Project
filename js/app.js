@@ -107,7 +107,7 @@ window.TaskManager = function () {
     module.tasks = [];
 
     module.display_tasks = function (tag_id) {
-        var container = $('<ul>').prop('id', 'tasks');
+        var container = $('<ul>').prop('id', 'tasks').prop('class', 'jumbotron');
 
         $(tag_id).append(container);
 
@@ -140,7 +140,9 @@ window.TaskManager = function () {
         var name_legend = $('<legend>').text("Name");
         var duration = $('<input>').prop('type', 'number').prop('id', 'duration');
         var duration_legend = $('<legend>').text("Duration");
-        var tags = $('<input>').prop('type', 'text').prop('id', 'tags');
+
+        var tags = $('<input>').prop('type', 'text').prop('list', 'tag_datalist');
+        var tag_datalist = $('<datalist>').prop('id', 'tag_datalist');
         var tags_legend = $('<legend>').text("Tags");
         var button = $('<input>').prop('type', 'submit').prop('value', 'Ajouter une tâche');
         var form = $('<form>').prop('id', 'add_task').append(name_legend).append(name).append(duration_legend).append(duration).append(tags_legend).append(tags).append("<br> <br>").append(button);
