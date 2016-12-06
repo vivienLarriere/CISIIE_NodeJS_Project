@@ -59,3 +59,8 @@ ul {
 .header {
     margin: 0;
 }
+
+.no_tags {
+    font-weight: bold;
+    color: maroon;
+}
